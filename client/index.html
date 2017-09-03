@@ -23,6 +23,10 @@
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   </head>
   <body>
     <div id="main">
@@ -30,8 +34,12 @@
       <!-- Your HTML goes here! -->
     </div>
 
-    <div id="roomSelector"></div>
-
+    <div id="roomSelector">
+      <select class='rooms'>
+        <option value="lobby">Lobby</option>
+      </select>
+    </div>
+    
     <div class="enterMessage">
       <form class='messageForm'>
         <!-- <input id='enterUserName' type="text" text="Enter message"> -->
@@ -40,13 +48,18 @@
 
       <form class='messageForm'>
         <input id='enterMessage' type="text" text="Enter message">
-          <button class ='enterButton' type="button" text= "Post"> Post </button>
-        <!-- <input type="submit" text="Submit"> -->
-<!--         <input class='enterButton' type="button" text="Post">
+        <button class ='enterButton btn btn-primary' type="button" text= "Post"> Send Message </button>
+      </form>
 
- --><!--         <button class = send>click me to send </button>
- -->      </form>
+      <form class='roomForm'>
+        <input id='createRoom' type="text" text="Create New Chatroom">
+        <button class ='createRoomButton btn btn-primary' type="button" text= "Create"> Create Room </button>
+      </form>
     </div>
+    <div class = 'friend' > 
+      <h2> friends</h2>
+      <div class = 'friendsList' > </div> 
+      </div> 
     <div class='chatroom' id='chats'></div> 
     
   </body>

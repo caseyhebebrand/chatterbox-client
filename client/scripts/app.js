@@ -5,13 +5,15 @@ var app = {
 
   server: 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages/',
   friends: {},
-  chatroom: undefined,
+  chatrooms: {},  
+  currentRoom: 'room1',
 //username: window.location.search.split('=')[1];
   //username: 'team7',
   
   init: function() {
     
     app.fetch();
+    console.log(app.chatrooms)
     if (!/(&|\?)username=/.test(window.location.search)) {
       var newSearch = window.location.search;
       if (newSearch !== '' & newSearch !== '?') {
@@ -20,8 +22,9 @@ var app = {
       newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
       window.location.search = newSearch;
     }
-    app.chatroom = 'lobby';
-    
+    app.currentRoom = 'lobby';
+    app.chatrooms['lobby'] = 'lobby';
+ 
     //setTimeout(app.fetch, 2000);
   },
 
@@ -55,6 +58,13 @@ var app = {
         console.log('chatterbox: fetch sent', data.results);
         $.each(data.results, function(i, data) {
           app.renderMessage(data.username, data.text, data.roomname);
+          if (!app.chatrooms.hasOwnProperty(data.roomname)) {
+            $('select').append($('<option>', {
+              value: data.roomname,
+              text: data.roomname
+            }));
+          }
+          app.chatrooms[data.roomname] = data.roomname;
         });
         
       },
@@ -81,19 +91,45 @@ var app = {
     var $message = $('<div class=message></div>');
     $user.appendTo($message);
     $text.appendTo($message);
-    $message.data('roomName', roomname);
-    
+    $message.attr('roomName', roomname);
     $message.appendTo('#chats');
   },
 
   renderRoom: function(roomName) {
-    var $chatRoom = $('<div></div>');
-    $chatRoom.data('roomName', roomName);
+    
+    var room = roomName;
+    app.currentRoom = roomName; 
+     $('.chatroom').children().hide();
+    //console.log($('.chatroom').children());
 
-    $chatRoom.appendTo('#roomSelect');
+    var $showThis = $('.chatroom').children();
+    $.each($showThis, function(i, value) { 
+     
+      if ($(value).attr('roomname') === roomName) {
+        console.log($(value).attr('roomname') );
+        $(value).show();
+      }
+      // if (value.data('roomname') === roomName) {
+      //   value.show();
+      // }  
+    });
+    // $('.chatroom').children().forEach(function(child) {
+    //   //console.log($(child));
+    //   if ($(child).data('roomname') === roomName) {
+    //     $(child).show();
+    //   }
+    // });
   },
 
   handleUserNameClick: function(user) {
+    var friend = $('<div></div>');
+    console.log(friend);
+    $(friend).text(user);
+    console.log($(friend))
+    if (!app.friends.hasOwnProperty(user)) {
+      $(friend).appendTo('.friendsList');
+
+    }
     app.friends[user] = user;
   },
   
@@ -102,11 +138,10 @@ var app = {
     var message = {
       username: window.location.search.split('=')[1],
       text: text,
-      roomname: app.roomname
+      roomname: app.currentRoom
     };
     console.log(message);
-    app.send(message);
-    
+    app.send(message);    
   }
 };
 
@@ -126,18 +161,28 @@ $(document).on('click', '.username', function() {
 });
 
 $(document).on('click', '.enterButton', function() {
-  console.log('submit activated');
   var text = document.getElementById('enterMessage').value;
   app.handleSubmit(text);
 });
 
-//click form submit html
-  //save inputs as variable
-  // pass those to send();
-  // refresh server 
+$(document).on('click', '.createRoomButton', function() {
+  var newRoom = document.getElementById('createRoom').value;
+  if (!app.chatrooms[newRoom]) {
+    $('select').append($('<option>', {
+      value: newRoom,
+      text: newRoom
+    }));
+       
+  }
+  app.chatrooms[newRoom] = newRoom;
+});
 
-  
-  
+$(document).on('change', 'select', function() {
+  var room = this.value;
+  app.renderRoom(room);
+});
+
+
 //});
 
 // var message = {

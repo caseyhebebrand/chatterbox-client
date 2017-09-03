@@ -1,8 +1,11 @@
 body {
-    background: #eee;
+    background: #0090da;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
+}
+#main {
+    background: #DCDCDC;
 }
 
 #main, #chats {
@@ -65,11 +68,11 @@ form input[type=text] {
     background-color: #eee;
 }
 
-.chat .username {
+/*.chat .username {
     font-weight: 800;
-}
+}*/
 
-.chat:hover {
+.message:hover {
     background-color: #ddd;
 }
 
@@ -86,5 +89,9 @@ form input[type=text] {
 .friend {
     color: #fff;
     background-color: #0090da;
+}
+
+.username {
+    font-weight: 'bold';
 }
 
